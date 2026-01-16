@@ -1,4 +1,5 @@
 import asyncio
+
 from app.db.session import engine
 from app.db.base import Base
 from app.core.logging import logger
