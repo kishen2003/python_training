@@ -4,6 +4,8 @@ from app.db.session import engine
 from app.db.base import Base
 from app.core.logging import logger
 
+from app.models import user  # noqa
+
 async def init_db():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
