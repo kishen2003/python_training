@@ -61,6 +61,17 @@ async def update_user_api(
 ):
     return await update_user(db, user_id, user_in)
 
+@router.patch(
+    "/{user_id}",
+    response_model=UserResponse,
+)
+async def patch_user_api(
+    user_id: int,
+    user_in: UserUpdate,
+    db: AsyncSession = Depends(get_db),
+):
+    return await update_user(db, user_id, user_in)
+
 @router.delete(
     "/{user_id}",
     status_code=status.HTTP_204_NO_CONTENT,
