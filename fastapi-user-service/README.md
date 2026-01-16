@@ -43,7 +43,24 @@ The project follows a layered architecture:
 - **Core Utilities**  
   Configuration and logging shared across the application.
 
+## Environment Configuration
 
+The application uses environment variables for configuration.
+
+Create a `.env` file in the project root with the following values:
+
+```env
+# Application
+APP_NAME=fastapi-user-service
+ENV=development
+
+# Database
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=your_db_name
+DB_USER=your_user
+DB_PASSWORD=your_password
+```
 
 ## Running the Application
 
