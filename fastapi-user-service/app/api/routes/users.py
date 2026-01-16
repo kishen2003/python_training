@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.schemas.user import UserCreate, UserUpdate, UserResponse
@@ -18,7 +18,6 @@ router = APIRouter(
     tags=["Users"],
 )
 
-
 @router.post(
     "",
     response_model=UserResponse,
@@ -30,16 +29,16 @@ async def create_user_api(
 ):
     return await create_user(db, user_in)
 
-
 @router.get(
     "",
     response_model=List[UserResponse],
 )
 async def get_users_api(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(10, ge=1, le=100),
     db: AsyncSession = Depends(get_db),
 ):
-    return await get_users(db)
-
+    return await get_users(db, skip=skip, limit=limit)
 
 @router.get(
     "/{user_id}",
@@ -51,7 +50,6 @@ async def get_user_api(
 ):
     return await get_user_by_id(db, user_id)
 
-
 @router.put(
     "/{user_id}",
     response_model=UserResponse,
@@ -62,7 +60,6 @@ async def update_user_api(
     db: AsyncSession = Depends(get_db),
 ):
     return await update_user(db, user_id, user_in)
-
 
 @router.delete(
     "/{user_id}",

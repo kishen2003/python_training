@@ -33,9 +33,16 @@ async def create_user(
 
     return user
 
-async def get_users(db: AsyncSession) -> list[User]:
-    stmt = select(User)
-    result = await db.execute(stmt)
+async def get_users(
+    db: AsyncSession,
+    skip: int = 0,
+    limit: int = 10,
+) -> list[User]:
+    result = await db.execute(
+        select(User)
+        .offset(skip)
+        .limit(limit)
+    )
     return result.scalars().all()
 
 async def get_user_by_id(
