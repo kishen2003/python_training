@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -17,9 +19,18 @@ from app.exceptions.handlers import (
     sqlalchemy_exception_handler,
 )
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logger.info("FastAPI application started")
+    yield
+    # Shutdown
+    logger.info("FastAPI application shutting down")
+
 app = FastAPI(
     title=settings.APP_NAME,
     debug=settings.ENV == "development",
+    lifespan=lifespan,
 )
 
 # Register routers
@@ -31,13 +42,3 @@ app.add_exception_handler(UserNotFoundException, user_not_found_handler)
 app.add_exception_handler(UserAlreadyExistsException, user_already_exists_handler)
 app.add_exception_handler(AppException, app_exception_handler)
 app.add_exception_handler(SQLAlchemyError, sqlalchemy_exception_handler)
-
-
-@app.on_event("startup")
-async def startup_event():
-    logger.info("FastAPI application started")
-
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    logger.info("FastAPI application shutting down")
