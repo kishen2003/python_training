@@ -4,7 +4,7 @@ from app.db.session import engine
 from app.db.base import Base
 from app.core.logging import logger
 
-from app.models import user  # noqa
+import app.models #noqa
 
 async def init_db():
     async with engine.begin() as conn:
