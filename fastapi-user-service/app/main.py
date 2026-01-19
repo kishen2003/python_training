@@ -7,6 +7,7 @@ from app.api.routes.v1.users import router as user_router
 from app.api.routes.v1.health import router as health_router
 from app.api.routes.v1.reports import router as reports_router
 from app.api.routes.v1.auth import router as auth_router
+from app.api.routes.v1.async_demo import router as async_demo_router
 from app.api.routes.v2.users import router as user_router_v2
 from app.core.config import settings
 from app.core.logging import logger
@@ -44,7 +45,9 @@ app.include_router(user_router, prefix=API_V1_PREFIX)
 app.include_router(health_router, prefix=API_V1_PREFIX)
 app.include_router(reports_router, prefix=API_V1_PREFIX)
 app.include_router(auth_router, prefix=API_V1_PREFIX)
+app.include_router(async_demo_router, prefix=API_V1_PREFIX)
 app.include_router(user_router_v2, prefix=API_V2_PREFIX)
+
 # Register exception handlers
 app.add_exception_handler(UserNotFoundException, user_not_found_handler)
 app.add_exception_handler(UserAlreadyExistsException, user_already_exists_handler)
