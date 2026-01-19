@@ -19,6 +19,7 @@ def generate_users_report_excel(rows) -> BytesIO:
             {
                 "Function": row.function,
                 "Count": row.count,
+                "Tenant ID": row.tenant_id,
                 "User ID": row.id,
                 "Name": row.name,
                 "Email": row.email,
@@ -32,6 +33,7 @@ def generate_users_report_excel(rows) -> BytesIO:
         [
             "Function",
             "Count",
+            "Tenant ID",
             "User ID",
             "Name",
             "Email",

@@ -26,6 +26,7 @@ async def get_users_with_department_counts(
         select(
             Department.name.label("function"),
             department_count_subquery.c.user_count.label("count"),
+            User.tenant_id,
             User.id,
             User.name,
             User.email,
@@ -38,7 +39,7 @@ async def get_users_with_department_counts(
             department_count_subquery,
             department_count_subquery.c.department_id == Department.id,
         )
-        .order_by(Department.name, User.id)
+        .order_by(User.tenant_id, Department.name, User.id)
     )
     result = await session.execute(query)
     return result.all()
