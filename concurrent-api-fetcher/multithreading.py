@@ -72,7 +72,7 @@ def multithreading(apis):
         print(f"\n\n[{result['index']}] Multithreading\n\n")
         print(f"API        : {result['url']}\n")
         print(f"Status     : {result['status']}\n")
-        print(f"Time Taken : {result['time']:.2f} seconds\n")
+        print(f"Time Taken : {result['time']} seconds\n")
         print(f"Thread     : {result['thread_name']} (ID: {result['thread_id']})\n")
         print(f"Response:\n{result['response']}\n\n")
         print("-" * 60)
@@ -89,7 +89,7 @@ def sequential(apis):
         call_api_sequential(index, api)
 
     end_time = time.time()
-    
+
     print(f"\n\nTotal Execution Time using Sequential: {end_time-start_time} seconds\n\n")
 
 
