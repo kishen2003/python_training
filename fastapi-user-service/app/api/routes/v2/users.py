@@ -1,10 +1,10 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, status, Query
+from fastapi import APIRouter, Depends, status, Query, BackgroundTasks
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.schemas.user import UserCreate, UserUpdate, UserResponse
-from app.crud.user import (
+from app.schemas.v2.user import UserCreate, UserUpdate, UserResponse
+from app.crud.v2.user import (
     create_user,
     get_users,
     get_user_by_id,
@@ -13,6 +13,7 @@ from app.crud.user import (
 )
 from app.db.dependencies import get_db
 from app.api.deps.tenant import get_tenant_id
+from app.background.audit import log_user_creation
 
 router = APIRouter(
     prefix="/users",
@@ -26,10 +27,13 @@ router = APIRouter(
 )
 async def create_user_api(
     user_in: UserCreate,
+    background_tasks: BackgroundTasks,
     tenant_id: str = Depends(get_tenant_id),
     db: AsyncSession = Depends(get_db),
 ):
-    return await create_user(db=db, user_in=user_in, tenant_id=tenant_id)
+    user = await create_user(db=db, user_in=user_in, tenant_id=tenant_id)
+    background_tasks.add_task(log_user_creation, user.email)
+    return user
 
 @router.get(
     "",

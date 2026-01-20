@@ -3,7 +3,7 @@ from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.dependencies import get_db
-from app.crud.reports import get_users_with_department_counts
+from app.crud.v1.reports import get_users_with_department_counts
 from app.utils.excel import generate_users_report_excel
 from app.api.deps.token import get_current_subject
 

@@ -3,8 +3,8 @@ from typing import List
 from fastapi import APIRouter, Depends, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.schemas.user import UserCreate, UserUpdate, UserResponse
-from app.crud.user import (
+from app.schemas.v1.user import UserCreate, UserUpdate, UserResponse
+from app.crud.v1.user import (
     create_user,
     get_users,
     get_user_by_id,
