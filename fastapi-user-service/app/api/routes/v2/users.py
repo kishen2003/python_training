@@ -32,7 +32,7 @@ async def create_user_api(
     db: AsyncSession = Depends(get_db),
 ):
     user = await create_user(db=db, user_in=user_in, tenant_id=tenant_id)
-    background_tasks.add_task(log_user_creation, user.email)
+    background_tasks.add_task(log_user_creation, user.id, user.email)
     return user
 
 @router.get(
