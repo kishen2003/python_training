@@ -13,7 +13,7 @@ from app.crud.v2.user import (
 )
 from app.db.dependencies import get_db
 from app.api.deps.tenant import get_tenant_id
-from app.background.audit import log_user_creation
+from app.background.audit import process_user_onboarding
 
 router = APIRouter(
     prefix="/users",
@@ -32,7 +32,7 @@ async def create_user_api(
     db: AsyncSession = Depends(get_db),
 ):
     user = await create_user(db=db, user_in=user_in, tenant_id=tenant_id)
-    background_tasks.add_task(log_user_creation, user.id, user.email)
+    background_tasks.add_task(process_user_onboarding, user.id, user.email, user.tenant_id)
     return user
 
 @router.get(
