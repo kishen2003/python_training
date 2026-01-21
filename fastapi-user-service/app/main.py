@@ -11,6 +11,7 @@ from app.api.routes.v1.async_demo import router as async_demo_router
 from app.api.routes.v2.users import router as user_router_v2
 from app.core.config import settings
 from app.core.logging import logger
+from app.core.scheduler import start_scheduler
 from app.exceptions.exceptions import AppException
 from app.exceptions.user import (
     UserNotFoundException,
@@ -30,6 +31,7 @@ API_V2_PREFIX = "/api/v2"
 async def lifespan(app: FastAPI):
     # Startup
     logger.info("FastAPI application started")
+    start_scheduler()
     yield
     # Shutdown
     logger.info("FastAPI application shutting down")

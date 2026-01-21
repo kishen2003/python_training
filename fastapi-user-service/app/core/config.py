@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRE_MINUTES: int = 60
 
+    USER_INACTIVITY_DAYS: int = 30
+    
     @property
     def DATABASE_URL(self) -> str:
         return (
